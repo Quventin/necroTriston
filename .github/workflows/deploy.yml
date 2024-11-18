@@ -11,36 +11,33 @@ jobs:
     steps:
       # Step 1: Checkout code
       - name: Checkout code
-        uses: actions/checkout@v4 # Updated to the latest version
+        uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js with Node.js 20
+      # Step 2: Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Updated to the latest version
+        uses: actions/setup-node@v4
         with:
-          node-version: 20          # Explicitly use Node.js 20
-          cache: 'npm'              # Enable caching for npm dependencies
+          node-version: 20
+          cache: 'npm'
 
       # Step 3: Install dependencies
       - name: Install dependencies
-        run: |
-          cd triston-site
-          npm ci # Use clean install for a consistent environment
+        run: npm ci
+        working-directory: triston-site
 
       # Step 4: Build the Angular application
       - name: Build Angular application
-        run: |
-          cd triston-site
-          npm run build -- --output-path=docs --base-href=/necroTriston/
+        run: npm run build -- --output-path=docs --base-href=/necroTriston/
+        working-directory: triston-site
 
       # Step 5: Disable Jekyll
       - name: Disable Jekyll
-        run: |
-          cd triston-site/docs
-          touch .nojekyll
+        run: touch .nojekyll
+        working-directory: triston-site/docs
 
       # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4 # Updated to the latest version
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: triston-site/docs
