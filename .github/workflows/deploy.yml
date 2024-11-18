@@ -9,27 +9,33 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm ci
         working-directory: triston-site
 
+      # Step 4: Build Angular application
       - name: Build Angular application
         run: npm run build -- --output-path=docs --base-href=/necroTriston/
         working-directory: triston-site
 
+      # Step 5: Disable Jekyll
       - name: Disable Jekyll
         run: touch .nojekyll
         working-directory: triston-site/docs
 
+      # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
