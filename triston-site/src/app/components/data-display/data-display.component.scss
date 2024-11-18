@@ -1,0 +1,13 @@
+.factions-list {
+    @apply rounded-lg shadow-lg;
+    ul {
+      @apply list-none;
+    }
+    li {
+      @apply flex justify-between items-center p-2;
+      &:hover {
+        @apply bg-industrial-light cursor-pointer;
+      }
+    }
+  }
+  
